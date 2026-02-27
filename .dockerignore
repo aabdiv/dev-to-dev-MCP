@@ -12,11 +12,12 @@ __pycache__/
 *.egg-info/
 .eggs/
 
-# Виртуальные окружения
+# Virtual environments
 .env
-.venv
-env/
+.env.local
+.venv/
 venv/
+env/
 ENV/
 
 # IDE
@@ -24,19 +25,30 @@ ENV/
 .vscode/
 *.swp
 *.swo
+*~
 
-# Тесты
+# Testing
 .pytest_cache/
 .coverage
 htmlcov/
+.tox/
+coverage.xml
+*.cover
 
-# Временные файлы
+# Temporary files
 *.log
 *.tmp
 .DS_Store
+Thumbs.db
 
-# AI логи
+# AI logs (not needed in container)
 /ai-logs/
 
-# Документация
+# Documentation (not needed in container)
 *.md
+
+# Qwen agent configs (not needed in container)
+.qwen/
+
+# Demo project (will be mounted as volume)
+demo_project/

@@ -1,9 +1,44 @@
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+.eggs/
+
+# Virtual environments
 .env
+.env.local
+.venv/
 venv/
 env/
+ENV/
+
+# Build artifacts
 dist/
 build/
 *.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+coverage.xml
+*.cover
+
+# OS
 .DS_Store
+Thumbs.db
+
+# Project specific
+ai-logs/*.tmp
