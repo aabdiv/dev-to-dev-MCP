@@ -1,3 +1,3 @@
-from mcp_server.services.parser_service import parse_commit, ParsedCommit
+from mcp_server.services.analyzer import analyze_repo
 
-print(parse_commit("fdfsf"))
+print(analyze_repo("/Users/vadimv/code/Python/fastapi_tutorial"))
