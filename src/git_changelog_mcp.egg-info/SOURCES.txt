@@ -1,9 +1,0 @@
-pyproject.toml
-src/git_changelog_mcp.egg-info/PKG-INFO
-src/git_changelog_mcp.egg-info/SOURCES.txt
-src/git_changelog_mcp.egg-info/dependency_links.txt
-src/git_changelog_mcp.egg-info/entry_points.txt
-src/git_changelog_mcp.egg-info/requires.txt
-src/git_changelog_mcp.egg-info/top_level.txt
-src/mcp_server/__init__.py
-src/mcp_server/server.py

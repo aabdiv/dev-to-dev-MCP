@@ -1,2 +1,0 @@
-[console_scripts]
-git-changelog-mcp = mcp_server.server:main
