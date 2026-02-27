@@ -1,0 +1,42 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+.eggs/
+
+# Виртуальные окружения
+.env
+.venv
+env/
+venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Тесты
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Временные файлы
+*.log
+*.tmp
+.DS_Store
+
+# AI логи
+/ai-logs/
+
+# Документация
+*.md

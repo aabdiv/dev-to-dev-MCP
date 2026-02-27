@@ -108,3 +108,14 @@ When working with MCP:
 - Follow MCP specification for tool definitions
 
 Stay focused. Write code. Ask permission. Move to next task.
+
+## Работа с Git
+
+После завершения каждой логической части работы (новая функция, исправление, тест):
+
+1. Покажи, какие файлы были изменены
+2. Предложи конкретные git команды для коммита:
+3. Используй понятные commit message по схеме: feat/fix/docs/test/refactor
+4. НЕ выполняй команды без моего подтверждения
+5. НЕ пуши в удаленный репозиторий — это делаю только я
+6. После моего подтверждения можешь показать вывод git status

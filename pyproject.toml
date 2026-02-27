@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "git-changelog-mcp"
+version = "0.1.0"
+description = "Git Changelog MCP Server for generating changelogs and release notes"
+requires-python = ">=3.11"
+dependencies = [
+    "fastmcp>=3.0",
+    "gitpython>=3.1",
+    "jinja2>=3.1",
+]
+
+[project.scripts]
+git-changelog-mcp = "mcp_server.server:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
