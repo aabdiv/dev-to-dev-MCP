@@ -1,6 +1,6 @@
 # SPEC.md — Git Changelog MCP Server
 
-**Статус:** Утверждено | **Версия:** 2.0 | **Дата:** 27 февраля 2026 г.
+**Статус:** Утверждено | **Версия:** 2.0 | **Дата:** 28 февраля 2026 г.
 
 ---
 
@@ -85,13 +85,12 @@ Release notes с breaking changes и migration guide. **Возврат:** `{titl
 
 ## 4. План итераций
 
-### Итерация 1: Скелет 
+### Итерация 1: Скелет
 **Чек-лист:**
 - [x] pyproject.toml (fastmcp, gitpython, jinja2, uvicorn)
 - [x] Структура src/mcp_server/{tools,resources,prompts,services,models}
 - [x] FastMCP сервер + /health endpoint
 - [x] Dockerfile (Alpine 3.11)
-- [x] demo_project/ с git-историей
 
 **Готовность:** `docker build` ≤500 МБ, `curl :8000/health` → 200 OK
 
@@ -171,12 +170,16 @@ Release notes с breaking changes и migration guide. **Возврат:** `{titl
 
 ### Итерация 7: Демо
 **Чек-лист:**
-- [ ] `scripts/smoke_test.sh`
-- [ ] End-to-end тесты
+- [ ] scripts/create_demo_project.sh — скрипт создания тестового репозитория
+- [ ] scripts/smoke_test.sh — проверка работоспособности
+- [ ] End-to-end тесты на созданном demo_project
 - [ ] Демо-сценарий (7 мин)
-- [ ] Документация
+- [ ] Документация (README.md, DEMO.md)
 
-**Готовность:** Smoke test проходит, все компоненты работают
+**Готовность:** 
+- Скрипт create_demo_project.sh создаёт 17 коммитов, 3 тега
+- Smoke test проходит
+- Все компоненты работают
 
 **Время:** 2 часа
 
@@ -186,6 +189,8 @@ Release notes с breaking changes и migration guide. **Возврат:** `{titl
 
 | Компонент | Приоритет | Время |
 |-----------|-----------|-------|
+| scripts/create_demo_project.sh | MUST | 1ч |
+| scripts/smoke_test.sh | MUST | 0.5ч |
 | analyze_commits | MUST | 3-4ч |
 | generate_changelog | MUST | 3-4ч |
 | generate_release_notes | SHOULD | 2-3ч |
@@ -208,6 +213,9 @@ Release notes с breaking changes и migration guide. **Возврат:** `{titl
 - [ ] Локально, без внешних API
 - [ ] Docker ≤500 МБ
 - [ ] Покрытие тестов >80%
+- [ ] scripts/create_demo_project.sh создаёт demo_project за <30 сек
+- [ ] demo_project содержит 17 коммитов, 3 тега, 1 breaking change
+- [ ] demo_project НЕ вложен в git основного репозитория
 
 **Метрики:** Запуск <5 сек | Ответ <1 сек | Линтеры: 0 ошибок
 
@@ -224,6 +232,7 @@ Release notes с breaking changes и migration guide. **Возврат:** `{titl
 | Server | Uvicorn 0.27+ |
 | Testing | pytest 8.0+ |
 | Linting | ruff 0.2+ |
+| Скрипты | Bash (create_demo_project.sh, smoke_test.sh) |
 
 **Структура:**
 ```
@@ -238,4 +247,19 @@ src/mcp_server/
 
 ---
 
-**Объём:** ~220 строк
+## Примечание: demo_project
+
+demo_project НЕ хранится в git основного репозитория.
+
+Для создания тестового проекта:
+```bash
+bash scripts/create_demo_project.sh
+```
+
+Скрипт создаёт:
+- 17 коммитов с различными типами (feat, fix, docs, refactor, test, chore, ci)
+- 2 non-conventional коммита
+- 3 тега (v1.0.0, v1.1.0, v1.2.0)
+- 1 breaking change
+
+Это решает проблему вложенного git-репозитория и даёт полный контроль над тестовыми данными.
