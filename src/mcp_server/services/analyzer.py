@@ -110,9 +110,10 @@ def get_commits_between(
         # Get commit stats
         try:
             stats = commit.stats
-            files_changed = stats.total_files
-            insertions = stats.total_insertions
-            deletions = stats.total_deletions
+            # GitPython uses stats.total dict, not direct attributes
+            files_changed = stats.total.get('files', 0)
+            insertions = stats.total.get('insertions', 0)
+            deletions = stats.total.get('deletions', 0)
         except Exception:
             files_changed = 0
             insertions = 0
