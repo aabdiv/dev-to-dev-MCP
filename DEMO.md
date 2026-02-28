@@ -26,6 +26,11 @@ docker run -p 8000:8000 -v $(pwd)/demo_project:/app/project git-changelog-mcp se
 # 1. Сборка образа
 docker build -t git-changelog-mcp .
 
+# Готовый образ также можно скачать из DockerHub
+docker pull aabdiv/git-changelog-mcp:latest
+docker tag aabdiv/git-changelog-mcp:latest git-changelog-mcp:latest
+docker rmi aabdiv/git-changelog-mcp:latest
+
 # 2. Создание demo_project если отсутствует
 bash scripts/create_demo_project.sh
 

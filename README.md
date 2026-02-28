@@ -43,6 +43,12 @@
 ```bash
 docker build -t git-changelog-mcp .
 ```
+> также готовый образ можно загрузить из DockerHub
+> ```bash
+> docker pull aabdiv/git-changelog-mcp:latest
+> docker tag aabdiv/git-changelog-mcp:latest git-changelog-mcp:latest
+> docker rmi aabdiv/git-changelog-mcp:latest
+> ```
 
 #### 2. Создание демо-репозитория (для демонстрации)
 ```bash
