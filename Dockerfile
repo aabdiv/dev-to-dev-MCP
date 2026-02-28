@@ -8,13 +8,13 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Устанавливаем зависимости
+# Копируем весь проект сначала
 COPY pyproject.toml .
-RUN pip install --no-cache-dir -e .
-
-# Копируем код
 COPY src/ ./src/
 COPY templates/ ./templates/
+
+# Устанавливаем зависимости
+RUN pip install --no-cache-dir -e .
 
 # Копируем entrypoint скрипт
 COPY scripts/entrypoint.sh /entrypoint.sh
