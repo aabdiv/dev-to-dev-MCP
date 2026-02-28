@@ -18,7 +18,7 @@ bash scripts/create_demo_project.sh
 docker run -p 8000:8000 -v $(pwd)/demo_project:/app/project git-changelog-mcp serve
 ``` 
 <details>
-<summary>Быстрый старт</summary>
+<summary>Быстрый старт (нажмите чтобы открыть)</summary>
 
 ```bash
 # 1. Сборка образа
@@ -283,7 +283,7 @@ docker run -p 8000:8000 \
 
 **Кнопка:** **Run Tool**
 
-### Шаг 3: Примеры вывода 📂
+## Шаг 3: Примеры вывода 📂
 
 <details>
 <summary><strong>version=v1.2.0, style=detailed, use_ai=true (нажмите чтобы открыть)</strong></summary>
@@ -416,6 +416,9 @@ docker run git-changelog-mcp smoke
 ✅ Smoke test PASSED (HTTP 200)
 ```
 
+
+---
+---
 ---
 
 ## 🔧 Troubleshooting
