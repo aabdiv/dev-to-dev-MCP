@@ -42,6 +42,8 @@ npx @modelcontextprotocol/inspector
 </details>
 
 ---
+---
+---
 
 ## 🎯 Сценарий 1: Автоматическая генерация CHANGELOG
 
@@ -71,10 +73,10 @@ npx @modelcontextprotocol/inspector
 **Кнопка:** **Run Tool**
 
 
-### Шаг 4: Примеры вывода
+## Шаг 4: Примеры вывода 📂 
 
 <details>
-<summary><strong>output_format=markdown, from_version=null, include_uncreleased=true</strong></summary>
+<summary><strong>output_format=markdown, from_version=null, include_uncreleased=true (нажмите чтобы открыть)</strong></summary>
 
 ---
 
@@ -137,7 +139,7 @@ Thanks to: @Demo User (4 commits)
 </details>
 
 <details>
-<summary><strong>output_format=json, from_version=v1.2.0, include_uncreleased=false</strong></summary>
+<summary><strong>output_format=json, from_version=v1.2.0, include_uncreleased=false (нажмите чтобы открыть)</strong></summary>
 
 ---
 
@@ -235,6 +237,8 @@ Thanks to: @Demo User (4 commits)
 </details>
 
 ---
+---
+---
 
 ## 🎯 Сценарий 2: AI Release Notes 
 
@@ -279,10 +283,10 @@ docker run -p 8000:8000 \
 
 **Кнопка:** **Run Tool**
 
-### Шаг 3: Примеры вывода
+### Шаг 3: Примеры вывода 📂
 
 <details>
-<summary><strong>version=v1.2.0, style=detailed, use_ai=true</strong></summary>
+<summary><strong>version=v1.2.0, style=detailed, use_ai=true (нажмите чтобы открыть)</strong></summary>
 
 ---
 # Release Notes v1.2.0
@@ -342,7 +346,7 @@ app.use(rateLimit({
 </details>
 
 <details>
-<summary><strong>version=v1.2.0, style=markdown, use_ai=false (FALLBACK)</strong></summary>
+<summary><strong>version=v1.2.0, style=markdown, use_ai=false (FALLBACK) (нажмите чтобы открыть)</strong></summary>
 
 ---
 # Release Notes: v1.2.0
@@ -372,6 +376,8 @@ app.use(rateLimit({
 </details>
 
 
+---
+---
 ---
 
 ## 🎯 Сценарий 3: Smoke Test
