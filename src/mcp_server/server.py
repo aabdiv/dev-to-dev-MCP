@@ -45,13 +45,52 @@ def generate_changelog(
     Args:
         repo_path: Path to the git repository
         output_format: Output format (markdown, json, keepachangelog)
-        from_version: Start from specific version tag
-        include_unreleased: Include unreleased changes
+        from_version: Start from specific version tag (optional)
+        include_unreleased: Include unreleased changes (default: True)
         
     Returns:
         Formatted changelog string
     """
-    return "# Changelog\n\nNot implemented yet"
+    from mcp_server.services.analyzer import analyze_repo
+    from mcp_server.services.template_service import TemplateService
+    
+    # Validate repo_path
+    if not repo_path or not isinstance(repo_path, str):
+        return "Error: Invalid repo_path"
+    
+    # Analyze repository
+    try:
+        result = analyze_repo(repo_path)
+    except Exception as e:
+        return f"Error: {str(e)}"
+    
+    # Group commits by version
+    ts = TemplateService()
+    versions = ts.group_commits_by_version(result['commits'], result['tags'])
+    
+    # Filter by from_version if specified
+    if from_version:
+        versions = [v for v in versions if v.version >= from_version]
+    
+    # Filter unreleased if not included
+    if not include_unreleased:
+        versions = [v for v in versions if v.version != "Unreleased"]
+    
+    # Select template
+    template_map = {
+        "markdown": "changelog.md.j2",
+        "md": "changelog.md.j2",
+        "json": "changelog.json.j2",
+        "keepachangelog": "keepachangelog.md.j2",
+        "kal": "keepachangelog.md.j2",
+    }
+    template_name = template_map.get(output_format.lower(), "changelog.md.j2")
+    
+    # Render changelog
+    try:
+        return ts.render_changelog(versions, template_name)
+    except Exception as e:
+        return f"Error rendering changelog: {str(e)}"
 
 
 @mcp.tool()
