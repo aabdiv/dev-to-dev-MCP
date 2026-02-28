@@ -2,16 +2,26 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Устанавливаем git для GitPython
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+# Устанавливаем git для GitPython и curl для smoke test
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
+# Устанавливаем зависимости
 COPY pyproject.toml .
+RUN pip install --no-cache-dir -e .
 
-RUN pip install --no-cache-dir .
-
+# Копируем код
 COPY src/ ./src/
 COPY templates/ ./templates/
 
+# Копируем entrypoint скрипт
+COPY scripts/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 EXPOSE 8000
 
-CMD ["git-changelog-mcp"]
+# Точка входа с аргументом по умолчанию
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["serve"]
