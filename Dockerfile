@@ -8,13 +8,14 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Копируем весь проект сначала
+# Устанавливаем зависимости
 COPY pyproject.toml .
 COPY src/ ./src/
 COPY templates/ ./templates/
-
-# Устанавливаем зависимости
 RUN pip install --no-cache-dir -e .
+
+# Устанавливаем AI зависимости (для GitHub Models)
+RUN pip install --no-cache-dir openai
 
 # Копируем entrypoint скрипт
 COPY scripts/entrypoint.sh /entrypoint.sh
