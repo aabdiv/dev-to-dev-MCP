@@ -12,25 +12,6 @@ def health_check(request):
     return JSONResponse({"status": "healthy", "service": "git-changelog-mcp"})
 
 
-@mcp.tool()
-def analyze_commits(
-    repo_path: str,
-    from_ref: str | None = None,
-    to_ref: str | None = None,
-) -> dict:
-    """
-    Analyze commits in a git repository.
-    
-    Args:
-        repo_path: Path to the git repository
-        from_ref: Starting reference (branch, tag, commit)
-        to_ref: Ending reference (branch, tag, commit)
-        
-    Returns:
-        Dictionary with commit analysis results
-    """
-    return {"status": "not implemented yet"}
-
 
 @mcp.tool()
 def generate_changelog(

@@ -10,7 +10,7 @@ class GitHubClient(AIClient):
     """GitHub Models implementation of AIClient."""
 
     DEFAULT_ENDPOINT = "https://models.github.ai/inference"
-    DEFAULT_MODEL = "gpt-4.1-mini"  # Free on GitHub Models
+    DEFAULT_MODEL = "gpt-4.1-mini"  # Free model on GitHub Models
 
     def __init__(
         self,
