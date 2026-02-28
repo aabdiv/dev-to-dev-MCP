@@ -98,21 +98,97 @@ def generate_release_notes(
     repo_path: str,
     version: str,
     style: str = "markdown",
+    use_ai: bool = True,
     include_breaking_changes: bool = True,
 ) -> str:
     """
     Generate release notes for a specific version.
-    
+
     Args:
         repo_path: Path to the git repository
         version: Version to generate notes for (e.g., 'v1.2.0')
         style: Output style (markdown, brief, detailed)
+        use_ai: Use AI generation (requires GITHUB_TOKEN)
         include_breaking_changes: Include breaking changes section
-        
+
     Returns:
         Formatted release notes string
+
+    Note:
+        AI generation requires GITHUB_TOKEN environment variable.
+        Falls back to template-based generation if AI unavailable.
     """
-    return f"# Release Notes\n\nNot implemented yet"
+    from mcp_server.services.analyzer import analyze_repo
+    from mcp_server.services.template_service import TemplateService
+    from mcp_server.services.ai import get_ai_client, AIGenerationError, ReleaseNotesStyle
+    import logging
+
+    logger = logging.getLogger(__name__)
+
+    # Validate inputs
+    if not repo_path or not isinstance(repo_path, str):
+        return "Error: Invalid repo_path"
+    if not version:
+        return "Error: Version is required"
+
+    # Analyze repository
+    try:
+        result = analyze_repo(repo_path)
+    except Exception as e:
+        return f"Error analyzing repo: {str(e)}"
+
+    # Get commits for this version
+    ts = TemplateService()
+    versions = ts.group_commits_by_version(result['commits'], result['tags'])
+    
+    # Find specific version
+    target_version = None
+    for v in versions:
+        if v.version == version:
+            target_version = v
+            break
+    
+    if not target_version:
+        available = [v.version for v in versions]
+        return f"Error: Version '{version}' not found. Available: {available}"
+
+    # Convert to dict format for AI
+    commits_data = []
+    for commit in target_version.commits:
+        commits_data.append({
+            "hash": commit.hash,
+            "parsed": {
+                "type": commit.type,
+                "scope": commit.scope,
+                "description": commit.description,
+            },
+            "breaking": commit.breaking,
+            "author": commit.author,
+        })
+
+    # Try AI generation if requested
+    if use_ai:
+        try:
+            style_enum = ReleaseNotesStyle(style.lower())
+            client = get_ai_client()  # Auto-detect from env
+            
+            return client.generate_release_notes(
+                commits=commits_data,
+                version=version,
+                style=style_enum,
+                language="ru"
+            )
+        except AIGenerationError as e:
+            logger.info(f"AI not available ({e}), falling back to templates")
+        except Exception as e:
+            logger.warning(f"AI generation failed: {e}, falling back to templates")
+
+    # Fallback: template-based generation
+    try:
+        # Render single version
+        return ts.render_changelog([target_version], "release_notes.md.j2")
+    except Exception as e:
+        return f"Error generating release notes: {str(e)}"
 
 
 def main() -> None:

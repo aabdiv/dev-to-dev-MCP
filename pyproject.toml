@@ -13,6 +13,11 @@ dependencies = [
     "jinja2>=3.1",
 ]
 
+[project.optional-dependencies]
+ai = [
+    "openai>=1.0",  # Works with OpenAI, GitHub Models, and compatible APIs
+]
+
 [project.scripts]
 git-changelog-mcp = "mcp_server.server:main"
 

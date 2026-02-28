@@ -1,0 +1,43 @@
+{# templates/release_notes.md.j2 - Basic fallback template #}
+{% for version in versions %}
+# Release Notes: {{ version.version }}
+
+{% if version.date %}
+**Date:** {{ version.date }}
+{% endif %}
+
+{% if version.breaking_changes %}
+## ⚠️ Breaking Changes
+
+{% for commit in version.breaking_changes %}
+- **{{ commit.scope or 'General' }}**: {{ commit.description }}
+{% endfor %}
+{% endif %}
+
+## 🚀 New Features
+
+{% if version.commits_by_type.get('feat') %}
+{% for commit in version.commits_by_type['feat'] %}
+- {{ commit.description }}{% if commit.scope %} ({{ commit.scope }}){% endif %}{{ '\n' }}
+{% endfor %}
+{% else %}
+_No new features_
+{% endif %}
+
+## 🐛 Bug Fixes
+
+{% if version.commits_by_type.get('fix') %}
+{% for commit in version.commits_by_type['fix'] %}
+- {{ commit.description }}{% if commit.scope %} ({{ commit.scope }}){% endif %}{{ '\n' }}
+{% endfor %}
+{% else %}
+_No bug fixes_
+{% endif %}
+
+## 📊 Statistics
+
+- **Commits:** {{ version.commits | length }}
+- **Authors:** {{ version.commits | map(attribute='author') | unique | list | length }}
+- **Breaking changes:** {{ version.breaking_changes | length }}
+
+{% endfor %}
