@@ -174,14 +174,25 @@ GIT_AUTHOR_DATE="2026-02-28T19:30:00" GIT_COMMITTER_DATE="2026-02-28T19:30:00" g
 GIT_COMMITTER_DATE="2026-02-28T19:30:00" git tag -a v1.2.0 -m "Release v1.2.0 - Latest features"
 echo "📦 Created tag v1.2.0 (2026-02-28 19:30:00)"
 
+# Commit 18: Unreleased commit (after last tag)
+echo "# Performance improvements" >> src/app.py
+git add src/app.py
+GIT_AUTHOR_DATE="2026-02-28T20:00:00" GIT_COMMITTER_DATE="2026-02-28T20:00:00" git commit -m "perf: optimize database queries for better performance"
+
+# Commit 19: Another unreleased commit
+echo "# Bug fixes" >> src/app.py
+git add src/app.py
+GIT_AUTHOR_DATE="2026-02-28T20:30:00" GIT_COMMITTER_DATE="2026-02-28T20:30:00" git commit -m "fix: resolve memory leak in cache layer"
+
 echo ""
 echo "✅ Git history created successfully!"
 echo ""
 echo "📊 Summary:"
-echo "   - 17 commits"
+echo "   - 19 commits (17 tagged + 2 unreleased)"
 echo "   - 3 tags (v1.0.0, v1.1.0, v1.2.0)"
 echo "   - 1 breaking change"
 echo "   - 2 non-conventional commits"
+echo "   - 2 unreleased commits"
 echo ""
 echo "📝 Commit types:"
 echo "   - feat: 6"
