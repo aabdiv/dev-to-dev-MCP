@@ -1,0 +1,41 @@
+{
+  "metadata": {
+    "generator": "git-changelog-mcp",
+    "version": "0.1.0",
+    "generated_at": {{ now() | tojson }},
+    "format": "keepachangelog-json"
+  },
+  "changelog": [
+{% for version in versions %}    {
+      "version": {{ version.version | tojson }},
+      "date": {{ version.date | tojson if version.date else 'null' }},
+      "stats": {
+        "total_commits": {{ version.commits | length }},
+        "breaking_changes": {{ version.breaking_changes | length }},
+        "contributors": {{ version.commits | map(attribute='author') | unique | list | length }}
+      },
+      "breaking_changes": [
+{% for commit in version.breaking_changes %}        {
+          "type": {{ commit.type | tojson }},
+          "scope": {{ commit.scope | tojson if commit.scope else 'null' }},
+          "description": {{ commit.description | tojson }},
+          "author": {{ commit.author | tojson }},
+          "hash": {{ commit.short_hash | tojson }},
+          "breaking": true
+        }{{ "," if not loop.last else "" }}
+{% endfor %}      ],
+      "changes": {
+{% for type, commits in version.commits_by_type.items() %}        {{ type | tojson }}: [
+{% for commit in commits %}          {
+            "type": {{ commit.type | tojson }},
+            "description": {{ commit.description | tojson }},
+            "scope": {{ commit.scope | tojson if commit.scope else 'null' }},
+            "author": {{ commit.author | tojson }},
+            "hash": {{ commit.short_hash | tojson }},
+            "breaking": {{ commit.breaking | lower }}
+          }{{ "," if not loop.last else "" }}
+{% endfor %}        ]{{ "," if not loop.last else "" }}
+{% endfor %}      }
+    }{{ "," if not loop.last else "" }}
+{% endfor %}  ]
+}

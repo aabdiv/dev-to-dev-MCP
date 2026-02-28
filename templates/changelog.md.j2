@@ -1,0 +1,51 @@
+# Changelog
+
+{% for version in versions %}
+## {{ version.version }}{% if version.date %} ({{ version.date }}){% endif %}
+
+*{{ version.commits | length }} commits, {{ version.breaking_changes | length }} breaking changes*
+
+{% if version.breaking_changes %}
+### ⚠️ Breaking Changes
+
+{% for commit in version.breaking_changes %}
+- **{{ commit.type }}{% if commit.scope %}({{ commit.scope }}){% endif %}**: {{ commit.description }} ({{ commit.author }}, [`{{ commit.short_hash }}`]({{ commit.hash }}))
+{% endfor %}
+{% endif %}
+
+{% for type, commits in version.commits_by_type.items() %}
+{% if type != 'non-conventional' and commits %}
+### {{ type | title }}
+
+{% for commit in commits %}
+- {{ commit.description }}{% if commit.scope %} (**{{ commit.scope }}**){% endif %} ({{ commit.author }}, [`{{ commit.short_hash }}`]({{ commit.hash }}))
+{% endfor %}
+
+{% endif %}
+{% endfor %}
+
+{% if version.commits_by_type.get('non-conventional') %}
+### Other Changes
+
+{% for commit in version.commits_by_type['non-conventional'] %}
+- {{ commit.description }} ({{ commit.author }}, [`{{ commit.short_hash }}`]({{ commit.hash }}))
+{% endfor %}
+
+{% endif %}
+
+{% if version.commits %}
+### 👥 Contributors
+
+{% set contributors = {} %}
+{% for commit in version.commits %}
+    {% if commit.author not in contributors %}
+        {% set _ = contributors.update({commit.author: 1}) %}
+    {% else %}
+        {% set _ = contributors.update({commit.author: contributors[commit.author] + 1}) %}
+    {% endif %}
+{% endfor %}
+
+Thanks to: {% for author, count in contributors.items() %}@{{ author }} ({{ count }} commit{{ 's' if count > 1 }}){{ ', ' if not loop.last }}{% endfor %}
+
+{% endif %}
+{% endfor %}

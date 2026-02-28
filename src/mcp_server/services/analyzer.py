@@ -131,7 +131,10 @@ def get_commits_between(
             insertions=insertions,
             deletions=deletions,
         ))
-    
+
+    # Sort commits by date (newest first) for consistent ordering
+    enriched.sort(key=lambda c: c.date, reverse=True)
+
     return enriched
 
 

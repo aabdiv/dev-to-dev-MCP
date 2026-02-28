@@ -77,102 +77,102 @@ echo "# Demo project files" > .gitignore
 
 # Commit 1: Initial commit
 git add .
-git commit -m "feat: initial commit"
+GIT_AUTHOR_DATE="2026-02-28T09:00:00" GIT_COMMITTER_DATE="2026-02-28T09:00:00" git commit -m "feat: initial commit"
 
 echo "📝 Creating git history..."
 
 # Commit 2: feat(api)
 echo "# Auth module" > src/auth.py
 git add src/auth.py
-git commit -m "feat(api): add user authentication"
+GIT_AUTHOR_DATE="2026-02-28T09:30:00" GIT_COMMITTER_DATE="2026-02-28T09:30:00" git commit -m "feat(api): add user authentication"
 
 # Commit 3: fix(ui)
 echo "# UI styles" > src/styles.css
 git add src/styles.css
-git commit -m "fix(ui): resolve button alignment issue"
+GIT_AUTHOR_DATE="2026-02-28T09:45:00" GIT_COMMITTER_DATE="2026-02-28T09:45:00" git commit -m "fix(ui): resolve button alignment issue"
 
 # Commit 4: docs
 echo "# API Documentation" > docs.md
 git add docs.md
-git commit -m "docs: update README with API documentation"
+GIT_AUTHOR_DATE="2026-02-28T09:55:00" GIT_COMMITTER_DATE="2026-02-28T09:55:00" git commit -m "docs: update README with API documentation"
 
 # TAG v1.0.0
-git tag -a v1.0.0 -m "Release v1.0.0 - Initial release"
-echo "📦 Created tag v1.0.0"
+GIT_COMMITTER_DATE="2026-02-28T10:00:00" git tag -a v1.0.0 -m "Release v1.0.0 - Initial release"
+echo "📦 Created tag v1.0.0 (2026-02-28 10:00:00)"
 
 # Commit 5: feat with emoji (dark mode)
 echo "# Dark mode styles" >> src/styles.css
 git add src/styles.css
-git commit -m "feat(ui): add dark mode support"
+GIT_AUTHOR_DATE="2026-02-28T11:00:00" GIT_COMMITTER_DATE="2026-02-28T11:00:00" git commit -m "feat(ui): add dark mode support"
 
 # Commit 6: feat! (breaking change)
 echo "# New API v2" > src/api_v2.py
 git add src/api_v2.py
-git commit -m "feat(api)!: remove deprecated v1 API endpoints"
+GIT_AUTHOR_DATE="2026-02-28T12:00:00" GIT_COMMITTER_DATE="2026-02-28T12:00:00" git commit -m "feat(api)!: remove deprecated v1 API endpoints"
 
 # Commit 7: fix(auth)
 echo "# Auth fixes" >> src/auth.py
 git add src/auth.py
-git commit -m "fix(auth): handle edge case in login flow"
+GIT_AUTHOR_DATE="2026-02-28T13:00:00" GIT_COMMITTER_DATE="2026-02-28T13:00:00" git commit -m "fix(auth): handle edge case in login flow"
 
 # Commit 8: refactor(core)
 echo "# Optimized queries" > src/database.py
 git add src/database.py
-git commit -m "refactor(core): optimize database queries"
+GIT_AUTHOR_DATE="2026-02-28T14:00:00" GIT_COMMITTER_DATE="2026-02-28T14:00:00" git commit -m "refactor(core): optimize database queries"
 
 # Commit 9: test
 echo "# Integration tests" > tests/test_integration.py
 git add tests/test_integration.py
-git commit -m "test: add integration tests for API endpoints"
+GIT_AUTHOR_DATE="2026-02-28T15:00:00" GIT_COMMITTER_DATE="2026-02-28T15:00:00" git commit -m "test: add integration tests for API endpoints"
 
 # Commit 10: chore
 echo "# Dependencies updated" >> README.md
 git add README.md
-git commit -m "chore: update dependencies to latest versions"
+GIT_AUTHOR_DATE="2026-02-28T16:00:00" GIT_COMMITTER_DATE="2026-02-28T16:00:00" git commit -m "chore: update dependencies to latest versions"
 
 # TAG v1.1.0
-git tag -a v1.1.0 -m "Release v1.1.0 - API improvements"
-echo "📦 Created tag v1.1.0"
+GIT_COMMITTER_DATE="2026-02-28T16:30:00" git tag -a v1.1.0 -m "Release v1.1.0 - API improvements"
+echo "📦 Created tag v1.1.0 (2026-02-28 16:30:00)"
 
 # Commit 11: non-conventional commit (without conventional format)
 echo "# Some quick fix" > src/quick_fix.py
 git add src/quick_fix.py
-git commit -m "quick fix for production issue"
+GIT_AUTHOR_DATE="2026-02-28T17:00:00" GIT_COMMITTER_DATE="2026-02-28T17:00:00" git commit -m "quick fix for production issue"
 
 # Commit 12: feat(api) - rate limiting
 echo "# Rate limiting middleware" > src/rate_limit.py
 git add src/rate_limit.py
-git commit -m "feat(api): add rate limiting middleware"
+GIT_AUTHOR_DATE="2026-02-28T17:30:00" GIT_COMMITTER_DATE="2026-02-28T17:30:00" git commit -m "feat(api): add rate limiting middleware"
 
 # Commit 13: non-conventional commit
 echo "# Temporary workaround" >> src/app.py
 git add src/app.py
-git commit -m "temporary workaround until proper fix"
+GIT_AUTHOR_DATE="2026-02-28T17:45:00" GIT_COMMITTER_DATE="2026-02-28T17:45:00" git commit -m "temporary workaround until proper fix"
 
 # Commit 14: fix with emoji (bug)
 echo "# Cache fixes" > src/cache.py
 git add src/cache.py
-git commit -m "fix(cache): fix memory leak in cache layer"
+GIT_AUTHOR_DATE="2026-02-28T18:00:00" GIT_COMMITTER_DATE="2026-02-28T18:00:00" git commit -m "fix(cache): fix memory leak in cache layer"
 
 # Commit 15: docs(api)
 echo "# API Reference" > API.md
 git add API.md
-git commit -m "docs(api): add comprehensive API documentation"
+GIT_AUTHOR_DATE="2026-02-28T18:30:00" GIT_COMMITTER_DATE="2026-02-28T18:30:00" git commit -m "docs(api): add comprehensive API documentation"
 
 # Commit 16: ci
 mkdir -p .github/workflows
 echo "# CI workflow" > .github/workflows/ci.yml
 git add .github/workflows/ci.yml
-git commit -m "ci: add GitHub Actions CI/CD workflow"
+GIT_AUTHOR_DATE="2026-02-28T19:00:00" GIT_COMMITTER_DATE="2026-02-28T19:00:00" git commit -m "ci: add GitHub Actions CI/CD workflow"
 
 # Commit 17: feat (CSV export)
 echo "# CSV export feature" >> src/app.py
 git add src/app.py
-git commit -m "feat: add export to CSV feature"
+GIT_AUTHOR_DATE="2026-02-28T19:30:00" GIT_COMMITTER_DATE="2026-02-28T19:30:00" git commit -m "feat: add export to CSV feature"
 
 # TAG v1.2.0
-git tag -a v1.2.0 -m "Release v1.2.0 - Latest features"
-echo "📦 Created tag v1.2.0"
+GIT_COMMITTER_DATE="2026-02-28T19:30:00" git tag -a v1.2.0 -m "Release v1.2.0 - Latest features"
+echo "📦 Created tag v1.2.0 (2026-02-28 19:30:00)"
 
 echo ""
 echo "✅ Git history created successfully!"

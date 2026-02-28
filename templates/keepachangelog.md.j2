@@ -1,0 +1,91 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+{% for version in versions %}
+## [{{ version.version }}] - {{ version.date or 'TBD' }}
+
+{% if version.breaking_changes %}
+### Changed (Breaking)
+
+{% for commit in version.breaking_changes %}
+- {{ commit.description }}{% if commit.scope %} in `{{ commit.scope }}`{% endif %} ({{ commit.author }})
+{% endfor %}
+{% endif %}
+
+{% if version.commits_by_type.get('feat') %}
+### Added
+
+{% for commit in version.commits_by_type['feat'] %}
+- {{ commit.description }}{% if commit.scope %} in `{{ commit.scope }}`{% endif %} ({{ commit.author }})
+{% endfor %}
+{% endif %}
+
+{% if version.commits_by_type.get('fix') %}
+### Fixed
+
+{% for commit in version.commits_by_type['fix'] %}
+- {{ commit.description }}{% if commit.scope %} in `{{ commit.scope }}`{% endif %} ({{ commit.author }})
+{% endfor %}
+{% endif %}
+
+{% if version.commits_by_type.get('refactor') %}
+### Changed
+
+{% for commit in version.commits_by_type['refactor'] %}
+- {{ commit.description }}{% if commit.scope %} in `{{ commit.scope }}`{% endif %} ({{ commit.author }})
+{% endfor %}
+{% endif %}
+
+{% if version.commits_by_type.get('perf') %}
+### Performance
+
+{% for commit in version.commits_by_type['perf'] %}
+- {{ commit.description }}{% if commit.scope %} in `{{ commit.scope }}`{% endif %} ({{ commit.author }})
+{% endfor %}
+{% endif %}
+
+{% if version.commits_by_type.get('docs') %}
+### Documentation
+
+{% for commit in version.commits_by_type['docs'] %}
+- {{ commit.description }}{% if commit.scope %} in `{{ commit.scope }}`{% endif %} ({{ commit.author }})
+{% endfor %}
+{% endif %}
+
+{% if version.commits_by_type.get('test') %}
+### Tests
+
+{% for commit in version.commits_by_type['test'] %}
+- {{ commit.description }}{% if commit.scope %} in `{{ commit.scope }}`{% endif %} ({{ commit.author }})
+{% endfor %}
+{% endif %}
+
+{% if version.commits_by_type.get('ci') %}
+### CI/CD
+
+{% for commit in version.commits_by_type['ci'] %}
+- {{ commit.description }} ({{ commit.author }})
+{% endfor %}
+{% endif %}
+
+{% if version.commits_by_type.get('chore') %}
+### Maintenance
+
+{% for commit in version.commits_by_type['chore'] %}
+- {{ commit.description }} ({{ commit.author }})
+{% endfor %}
+{% endif %}
+
+{% if version.commits_by_type.get('non-conventional') %}
+### Other
+
+{% for commit in version.commits_by_type['non-conventional'] %}
+- {{ commit.description }} ({{ commit.author }})
+{% endfor %}
+{% endif %}
+
+{% endfor %}
