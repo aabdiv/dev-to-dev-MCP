@@ -44,16 +44,22 @@
 docker build -t git-changelog-mcp .
 ```
 
-#### 2. Запуск сервера
+#### 2. Создание демо-репозитория (для демонстрации)
+```bash
+chmod +x scripts/create_demo_project.sh
+bash scripts/create_demo_project.sh
+```
+
+#### 3. Запуск сервера
 ```bash
 docker run -p 8000:8000 -v $(pwd)/demo_project:/app/projects git-changelog-mcp serve
 ```
 
 > **Важно:** Для работы сервера нужно предоставить контейнеру доступ к вашему репозиторию через volume mount (-v):
 > ```bash
-> # Маунт текущего проекта (вашу папку со всем содержимым контейнер увидит как /app/projects)
+> # Маунт текущего проекта (вашу папку со всем содержимым контейнер увидит как /app/project)
 > docker run -p 8000:8000 \
->   -v /path/to/your/repo:/app/projects \
+>   -v /path/to/your/repo:/app/project \
 >   git-changelog-mcp serve
 > ```
 > **Без mount** контейнер не будет иметь доступа к внешним репозиториям для анализа.
@@ -61,7 +67,8 @@ docker run -p 8000:8000 -v $(pwd)/demo_project:/app/projects git-changelog-mcp s
 > **Примечание:** Переменные окружения не требуются для базового режима.  
 > Для расширенного режима с AI создайте файл `.env` (см. [Расширенный режим](#-расширенный-режим)).
 
-#### 3. Проверка работоспособности
+#### 4. Проверка работоспособности
+- в другом терминале напишите:
 ```bash
 curl http://localhost:8000/health
 ```
@@ -71,19 +78,24 @@ curl http://localhost:8000/health
 {"status": "healthy", "service": "git-changelog-mcp"}
 ```
 
-#### 4. Подключение через MCP Inspector
+#### 5. Подключение через MCP Inspector
 ```bash
 # Установите MCP Inspector (если не установлен)
 npm install -g @modelcontextprotocol/inspector
 
 # Запуск Inspector
-npx @modelcontextprotocol/inspector@latest
+npx @modelcontextprotocol/inspector
 ```
 
 В Inspector укажите:
 - **Transport:** Streamable HTTP
 - **URL:** `http://localhost:8000/mcp`
+- **Connection Type:** Via Proxy
 <img src="docs/images/inspector1.png" width="600" alt="Описание">
+После успешного подключения перейдите на вкладку **Tools** и нажмите **List Tools**
+<img src="docs/images/inspector2.png" width="600" alt="Описание">
+Выберите в списке нужный Tool, укажите параметры функции и нажмите **Run Tool**, ниже отобразится результат
+<img src="docs/images/inspector3.png" width="600" alt="Описание">
 ---
 
 ## 🛠️ Инструменты
@@ -101,18 +113,6 @@ npx @modelcontextprotocol/inspector@latest
 | `from_version` | string | `null` | Начать с конкретной версии (например, `v1.0.0`) |
 | `include_unreleased` | boolean | `true` | Включать незавершённые изменения |
 
-**Пример вызова:**
-```json
-{
-  "tool": "generate_changelog",
-  "arguments": {
-    "repo_path": "/path/to/repo",
-    "output_format": "markdown",
-    "from_version": "v1.0.0",
-    "include_unreleased": true
-  }
-}
-```
 
 **Пример вывода:**
 ```markdown
@@ -133,13 +133,17 @@ npx @modelcontextprotocol/inspector@latest
 
 ### Breaking Changes
 - API endpoint `/users` changed to `/api/v2/users`
+
+### 👥 Contributors
+
+Thanks to: @Demo User (2 commits)
 ```
 
 ---
 
 ### `generate_release_notes`
 
-Создаёт подробные release notes для конкретной версии с поддержкой AI.
+Создаёт подробные release notes для конкретной версии (с опциональной поддержкой AI).
 
 | Параметр | Тип | По умолчанию | Описание |
 |----------|-----|--------------|----------|
@@ -148,20 +152,6 @@ npx @modelcontextprotocol/inspector@latest
 | `style` | string | `"markdown"` | Стиль: `markdown`, `brief`, `detailed` |
 | `use_ai` | boolean | `true` | Использовать AI для улучшения |
 | `include_breaking_changes` | boolean | `true` | Включать секцию breaking changes |
-
-**Пример вызова:**
-```json
-{
-  "tool": "generate_release_notes",
-  "arguments": {
-    "repo_path": "/path/to/repo",
-    "version": "v1.2.0",
-    "style": "detailed",
-    "use_ai": true,
-    "include_breaking_changes": true
-  }
-}
-```
 
 **Пример вывода:**
 ```markdown
@@ -202,37 +192,31 @@ curl /api/v2/users/123
 
 ---
 
-## 📖 Использование
+## 📋 Ограничения
 
-### Docker
+### Поддерживается
+- ✅ Conventional Commits (`feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`, `ci:`)
+- ✅ Семантическое версионирование (теги `v1.0.0`, `1.0.0`) и сортировка по тегам
+- ✅ Breaking changes через `!` или `BREAKING CHANGE:` в коммите
+- ✅ Группировка по версиям и типам изменений
+- ✅ Несколько форматов вывода (markdown, json, keepachangelog)
 
-#### Анализ репозитория (с volume mount)
-```bash
-# Маунт репозитория в контейнер
-docker run -p 8000:8000 \
-  -v /path/to/repo:/app/projects/my-repo \
-  git-changelog-mcp serve
+### Не поддерживается
+- ❌ Моно-репозитории с несколькими пакетами
+- ❌ Инкрементальная генерация (всегда полная пересборка)
 
-# Пример с demo_project
-docker run -p 8000:8000 \
-  -v $(pwd)/demo_project:/app/projects/demo_project \
-  git-changelog-mcp serve
-```
+### Тестовый проект
+Проверено на **demo_project**:
+- 17 коммитов с различными типами
+- 3 тега (`v1.0.0`, `v1.1.0`, `v1.2.0`)
+- 1 breaking change
+- 2 non-conventional коммита (корректно обрабатываются как non-conventional)
 
-Теперь в MCP Inspector используйте путь `/app/projects/demo_project`.
-
-#### Запуск с AI-поддержкой
-```bash
-# С GitHub Models
-docker run -p 8000:8000 \
-  --env-file .env \
-  -v $(pwd)/demo_project:/app/projects/demo_project \
-  git-changelog-mcp serve
-```
+Создание тестового проекта (см. [Создание демо-репозитория](#-быстрый-старт))
 
 #### Smoke test
 ```bash
-docker run --rm git-changelog-mcp smoke
+docker run git-changelog-mcp smoke
 ```
 
 **Ожидаемый вывод:**
@@ -249,59 +233,19 @@ docker run --rm git-changelog-mcp smoke
 ✅ Smoke test PASSED (HTTP 200)
 ```
 
-### MCP Inspector
-
-1. Откройте MCP Inspector в браузере
-2. Подключитесь к `http://localhost:8000/mcp`
-3. Выберите инструмент из списка
-4. Заполните параметры и выполните
-
-### Примеры использования
-
-#### Генерация CHANGELOG для всего репозитория
-```bash
-curl -X POST http://localhost:8000/mcp \
-  -H "Content-Type: application/json" \
-  -d '{
-    "tool": "generate_changelog",
-    "arguments": {
-      "repo_path": "/app/demo_project",
-      "output_format": "keepachangelog"
-    }
-  }'
-```
-
-#### Release notes с AI для версии v1.2.0
-```bash
-curl -X POST http://localhost:8000/mcp \
-  -H "Content-Type: application/json" \
-  -d '{
-    "tool": "generate_release_notes",
-    "arguments": {
-      "repo_path": "/app/projects/demo_project",
-      "version": "v1.2.0",
-      "style": "detailed",
-      "use_ai": true
-    }
-  }'
-```
-
----
-
 ## 🔧 Расширенный режим
 
 ### AI-интеграция
 
-Для включения AI-генерации release notes создайте файл `.env` в корне проекта:
+Для включения AI-генерации release notes создайте файл `.env` в корне проекта (можно использоавть образец `.env.example`):
 
 ```bash
 # .env
 GITHUB_TOKEN=ghp_your_token_here
-AI_PROVIDER=github
 AI_MODEL=gpt-4.1-mini
 ```
 
-Или передайте переменные при запуске Docker:
+И передайте переменные при запуске Docker:
 
 ```bash
 docker run -p 8000:8000 \
@@ -314,7 +258,7 @@ docker run -p 8000:8000 \
 
 #### Провайдеры AI
 
-**GitHub Models (рекомендуется для хакатона):**
+**GitHub Models:**
 ```bash
 GITHUB_TOKEN=ghp_your_token
 AI_PROVIDER=github
@@ -328,7 +272,6 @@ OPENAI_API_KEY=sk-...
 AI_PROVIDER=openai
 AI_MODEL=gpt-3.5-turbo
 ```
-💰 ~$0.01 за release notes
 
 **Ollama (локально):**
 ```bash
@@ -337,34 +280,3 @@ AI_MODEL=llama3.1
 ```
 ✅ Полностью бесплатно, работает офлайн
 
----
-
-## 📋 Ограничения
-
-### Поддерживается
-- ✅ Conventional Commits (`feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`, `ci:`)
-- ✅ Семантическое версионирование (теги `v1.0.0`, `1.0.0`)
-- ✅ Breaking changes через `!` или `BREAKING CHANGE:` в коммите
-- ✅ Группировка по версиям и типам изменений
-- ✅ Несколько форматов вывода (markdown, json, keepachangelog)
-
-### Не поддерживается
-- ❌ Моно-репозитории с несколькими пакетами
-- ❌ Кастомные форматы коммитов (только Conventional Commits)
-- ❌ Инкрементальная генерация (всегда полная пересборка)
-
-### Тестовый проект
-Проверено на **demo_project**:
-- 17 коммитов с различными типами
-- 3 тега (`v1.0.0`, `v1.1.0`, `v1.2.0`)
-- 1 breaking change
-- 2 non-conventional коммита (корректно игнорируются)
-
-Создание тестового проекта:
-```bash
-bash scripts/create_demo_project.sh
-```
-
----
-
-**Сделано с ❤️ для хакатона**
